@@ -1,19 +1,28 @@
-import { useState } from 'react'
-import Button from './components/Button';
-import Layout from './components/Layout';
+import Header from './layouts/components/Header';
+import TodoList from './features/todo/components/TodoList';
+import MainLayout from './layouts/MainLayout'
+import { useState, useEffect } from 'react';
+import api from './api/axiosClient';
 
 function App() {
-  const [count, setCount] = useState<number>(0);
-
-  const onClick = () => {
-    setCount(count + 1);
-  }
-
+  const [todos, setTodos] = useState([]);
+  useEffect(() => {
+    async function fetchTodos() {
+      try {
+        const res = await api.get("/api/todos");
+        setTodos(res.data.data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchTodos()
+  }, [])
   return (
     <>
-      <Layout>
-        <Button count={count} onClick={onClick} />
-      </Layout>
+      <MainLayout>
+        <Header />
+        <TodoList todos={todos} />
+      </MainLayout>
     </>
   )
 }
