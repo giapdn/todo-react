@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import api from "./services/api";
+import api from "./api/axios";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Todos from "./pages/Todos";
-import Layout from "./Layout";
+import Layout from "./components/Layout";
 import type { DeleteTodo, Todo, ToggleTodo } from "./types/todo";
 
 function App() {
