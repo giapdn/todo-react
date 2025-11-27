@@ -7,3 +7,4 @@ export interface Todo {
 }
 
 export type ToggleTodo = (id: string) => void
+export type DeleteTodo = (id: string) => void

@@ -5,7 +5,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Todos from "./pages/Todos";
 import Layout from "./Layout";
-import type { Todo, ToggleTodo } from "./types/todo";
+import type { DeleteTodo, Todo, ToggleTodo } from "./types/todo";
 
 function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -42,13 +42,30 @@ function App() {
     }
   };
 
+  const deleteTodo: DeleteTodo = async (id: string) => {
+    try {
+      const res = await api.delete(`/api/todos/${id}`);
+      if (res.status == 200) {
+        setTodos((prev) => prev.filter((todo) => todo._id !== id));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
           <Route
             path="/"
-            element={<Todos todos={todos} toggleTodo={toggleTodo} />}
+            element={
+              <Todos
+                todos={todos}
+                toggleTodo={toggleTodo}
+                deleteTodo={deleteTodo}
+              />
+            }
           />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
